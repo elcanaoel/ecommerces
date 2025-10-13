@@ -1,18 +1,23 @@
-# Crypto E-Commerce Platform
+# 🛍️ Crypto E-Commerce Platform
 
-A modern e-commerce platform that accepts cryptocurrency payments. Users can browse products, add items to cart, and pay using Bitcoin, Ethereum, or USDT by sending funds to admin-provided wallet addresses.
+A full-stack e-commerce platform that accepts cryptocurrency payments (Bitcoin, Ethereum, USDT). Built with modern technologies and featuring a complete admin dashboard, order tracking, wallet system, and customer reviews.
 
-## Features
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Node](https://img.shields.io/badge/node-%3E%3D16.0.0-brightgreen)
+![React](https://img.shields.io/badge/react-18.2.0-blue)
 
-- 🛍️ **Product Management**: Admin can create, edit, and delete real products
-- 💰 **Crypto Payments**: Accept BTC, ETH, and USDT payments
-- 📱 **QR Code Generation**: Automatic QR codes for wallet addresses
-- 👤 **User Authentication**: Secure login and registration
-- 🛒 **Shopping Cart**: Full cart functionality
-- 📦 **Order Tracking**: Track order status and payment verification
-- 🎨 **Modern UI**: Beautiful, responsive design with TailwindCSS
-- 🔐 **Admin Panel**: Manage products, orders, and wallet addresses
+## ✨ Features
 
+### 🛒 Customer Features
+- **Product Browsing**: 60+ products (smartphones & laptops) with high-quality images
+- **Advanced Search & Filters**: Search by name, filter by category
+- **Product Reviews**: 5-star rating system with customer reviews
+- **Shopping Cart**: Add, remove, update quantities
+- **Cryptocurrency Checkout**: Pay with BTC, ETH, or USDT
+- **Order Tracking**: Real-time order status with tracking numbers
+- **Wallet System**: Deposit funds, view balance, transaction history
+- **Payment Requests**: Accept/reject custom payment fees from admin
+- **User Profile**: Manage account details and view order history
 ## Tech Stack
 
 ### Backend
