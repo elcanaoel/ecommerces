@@ -198,7 +198,7 @@ router.post('/seed-database', async (req, res) => {
         brand: 'Apple', 
         stock: 50, 
         featured: true,
-        image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400&h=400&fit=crop'
+        image: 'https://placehold.co/400x400/1e40af/white?text=iPhone+15+Pro+Max'
       },
       { 
         name: 'Samsung Galaxy S24 Ultra', 
@@ -207,7 +207,7 @@ router.post('/seed-database', async (req, res) => {
         brand: 'Samsung', 
         stock: 45, 
         featured: true,
-        image: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=400&h=400&fit=crop'
+        image: 'https://placehold.co/400x400/0ea5e9/white?text=Samsung+S24+Ultra'
       },
       { 
         name: 'Google Pixel 8 Pro', 
@@ -216,7 +216,7 @@ router.post('/seed-database', async (req, res) => {
         brand: 'Google', 
         stock: 50, 
         featured: true,
-        image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400&h=400&fit=crop'
+        image: 'https://placehold.co/400x400/10b981/white?text=Google+Pixel+8+Pro'
       },
       { 
         name: 'OnePlus 12', 
@@ -225,7 +225,7 @@ router.post('/seed-database', async (req, res) => {
         brand: 'OnePlus', 
         stock: 45, 
         featured: false,
-        image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=400&fit=crop'
+        image: 'https://placehold.co/400x400/f59e0b/white?text=OnePlus+12'
       },
       { 
         name: 'MacBook Pro 16-inch M3', 
@@ -234,7 +234,7 @@ router.post('/seed-database', async (req, res) => {
         brand: 'Apple', 
         stock: 25, 
         featured: true,
-        image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=400&fit=crop'
+        image: 'https://placehold.co/400x400/6366f1/white?text=MacBook+Pro+M3'
       },
       { 
         name: 'Dell XPS 15', 
@@ -243,7 +243,7 @@ router.post('/seed-database', async (req, res) => {
         brand: 'Dell', 
         stock: 30, 
         featured: true,
-        image: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400&h=400&fit=crop'
+        image: 'https://placehold.co/400x400/8b5cf6/white?text=Dell+XPS+15'
       },
       { 
         name: 'HP Spectre x360', 
@@ -252,7 +252,7 @@ router.post('/seed-database', async (req, res) => {
         brand: 'HP', 
         stock: 25, 
         featured: false,
-        image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=400&fit=crop'
+        image: 'https://placehold.co/400x400/ec4899/white?text=HP+Spectre+x360'
       },
       { 
         name: 'ASUS ROG Zephyrus', 
@@ -261,7 +261,7 @@ router.post('/seed-database', async (req, res) => {
         brand: 'ASUS', 
         stock: 20, 
         featured: true,
-        image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400&h=400&fit=crop'
+        image: 'https://placehold.co/400x400/ef4444/white?text=ASUS+ROG+Zephyrus'
       },
     ];
 
