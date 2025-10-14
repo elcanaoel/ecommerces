@@ -20,10 +20,11 @@ const Home = () => {
     try {
       setLoading(true)
       const response = await productsAPI.getAll(filters)
-      setProducts(response.data)
+      setProducts(Array.isArray(response.data) ? response.data : [])
     } catch (error) {
       toast.error('Failed to load products')
       console.error(error)
+      setProducts([])
     } finally {
       setLoading(false)
     }
@@ -32,9 +33,10 @@ const Home = () => {
   const fetchCategories = async () => {
     try {
       const response = await productsAPI.getCategories()
-      setCategories(response.data)
+      setCategories(Array.isArray(response.data) ? response.data : [])
     } catch (error) {
       console.error('Failed to load categories:', error)
+      setCategories([])
     }
   }
 
