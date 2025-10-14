@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
 
     const products = await Product.find(query)
       .populate('createdBy', 'name email')
-      .sort({ createdAt: -1 });
+      .sort({ featured: -1, name: 1 });
 
     res.json(products);
   } catch (error) {
