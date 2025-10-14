@@ -4,6 +4,7 @@ import { ShoppingCart, Package, ArrowLeft, Minus, Plus, Star } from 'lucide-reac
 import { productsAPI } from '../utils/api'
 import { useCart } from '../context/CartContext'
 import { toast } from 'react-toastify'
+import ProductCard from '../components/ProductCard'
 
 const ProductDetail = () => {
   const { id } = useParams()
@@ -13,6 +14,7 @@ const ProductDetail = () => {
   const [loading, setLoading] = useState(true)
   const [quantity, setQuantity] = useState(1)
   const [selectedImage, setSelectedImage] = useState(0)
+  const [relatedProducts, setRelatedProducts] = useState([])
 
   useEffect(() => {
     fetchProduct()
@@ -23,11 +25,28 @@ const ProductDetail = () => {
       setLoading(true)
       const response = await productsAPI.getOne(id)
       setProduct(response.data)
+      
+      // Fetch related products from same category
+      if (response.data.category) {
+        fetchRelatedProducts(response.data.category, id)
+      }
     } catch (error) {
       toast.error('Failed to load product')
       console.error(error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchRelatedProducts = async (category, currentProductId) => {
+    try {
+      const response = await productsAPI.getAll({ category })
+      // Filter out current product and get random 4 products
+      const filtered = response.data.filter(p => p._id !== currentProductId)
+      const shuffled = filtered.sort(() => Math.random() - 0.5)
+      setRelatedProducts(shuffled.slice(0, 4))
+    } catch (error) {
+      console.error('Failed to load related products:', error)
     }
   }
 
@@ -262,6 +281,18 @@ const ProductDetail = () => {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Related Products Section */}
+      {relatedProducts.length > 0 && (
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Related Products</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {relatedProducts.map((relatedProduct) => (
+              <ProductCard key={relatedProduct._id} product={relatedProduct} />
+            ))}
           </div>
         </div>
       )}
