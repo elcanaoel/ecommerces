@@ -1,3 +1,4 @@
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { ShoppingCart, Package, Star } from 'lucide-react'
 import { useCart } from '../context/CartContext'
@@ -5,6 +6,7 @@ import { toast } from 'react-toastify'
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart()
+  const [imageError, setImageError] = React.useState(false)
 
   const handleAddToCart = (e) => {
     e.preventDefault()
@@ -16,18 +18,27 @@ const ProductCard = ({ product }) => {
     }
   }
 
+  const handleImageError = () => {
+    setImageError(true)
+  }
+
   return (
     <Link to={`/product/${product._id}`} className="card hover:shadow-xl transition-shadow">
       <div className="relative">
-        {product.images && product.images.length > 0 ? (
+        {product.images && product.images.length > 0 && !imageError ? (
           <img
             src={product.images[0]}
             alt={product.name}
             className="w-full h-48 object-cover rounded-lg mb-4"
+            onError={handleImageError}
+            loading="lazy"
           />
         ) : (
-          <div className="w-full h-48 bg-gray-200 rounded-lg mb-4 flex items-center justify-center">
-            <Package size={48} className="text-gray-400" />
+          <div className="w-full h-48 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg mb-4 flex items-center justify-center">
+            <div className="text-center text-white p-4">
+              <Package size={48} className="mx-auto mb-2" />
+              <p className="text-sm font-semibold">{product.name}</p>
+            </div>
           </div>
         )}
         {product.stock === 0 && (
