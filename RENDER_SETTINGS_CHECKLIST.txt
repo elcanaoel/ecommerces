@@ -1,0 +1,89 @@
+═══════════════════════════════════════════════════════════════
+  ✅ RENDER SETTINGS CHECKLIST - PRINT THIS
+═══════════════════════════════════════════════════════════════
+
+YOUR CODE IS WORKING! ✅
+The problem is just the Render configuration.
+
+═══════════════════════════════════════════════════════════════
+📋 CORRECT SETTINGS (Copy these exactly)
+═══════════════════════════════════════════════════════════════
+
+Service Type:
+  ✅ Static Site (NOT Web Service)
+
+Build Command:
+  cd client && npm install && npm run build
+
+Publish Directory:
+  client/dist
+
+Environment Variables:
+  VITE_API_URL = https://[your-backend].onrender.com/api
+
+Branch:
+  main
+
+═══════════════════════════════════════════════════════════════
+🔧 STEPS TO FIX
+═══════════════════════════════════════════════════════════════
+
+[ ] 1. Go to https://dashboard.render.com
+[ ] 2. Click on your FRONTEND service (Static Site)
+[ ] 3. Click "Settings" tab
+[ ] 4. Scroll to "Build & Deploy"
+[ ] 5. Edit "Build Command" to match above
+[ ] 6. Edit "Publish Directory" to match above
+[ ] 7. Click "Environment" tab
+[ ] 8. Verify VITE_API_URL is set correctly
+[ ] 9. Click "Manual Deploy" button
+[ ] 10. Select "Clear build cache & deploy"
+[ ] 11. Wait 5 minutes
+[ ] 12. Visit https://techcard.onrender.com
+[ ] 13. Hard refresh: Ctrl + Shift + R
+[ ] 14. Site works! 🎉
+
+═══════════════════════════════════════════════════════════════
+❌ COMMON MISTAKES (Avoid these!)
+═══════════════════════════════════════════════════════════════
+
+❌ Publish Directory: dist
+   ✅ Should be: client/dist
+
+❌ Build Command: npm run build
+   ✅ Should be: cd client && npm install && npm run build
+
+❌ Editing the backend service
+   ✅ Should edit: Static Site (frontend)
+
+❌ Not clearing cache
+   ✅ Always use: "Clear build cache & deploy"
+
+═══════════════════════════════════════════════════════════════
+📊 WHAT LOGS SHOULD SHOW
+═══════════════════════════════════════════════════════════════
+
+==> Running 'cd client && npm install && npm run build'
+==> cd client
+==> npm install
+==> npm run build
+==> vite building for production...
+==> ✓ built in 15s
+==> Build succeeded
+==> Publishing directory: client/dist
+==> Deploy succeeded ✅
+
+═══════════════════════════════════════════════════════════════
+🎯 AFTER DEPLOY SUCCEEDS
+═══════════════════════════════════════════════════════════════
+
+1. Visit: https://techcard.onrender.com
+2. Press: Ctrl + Shift + R (hard refresh)
+3. See: Your e-commerce homepage
+4. No more 404!
+
+═══════════════════════════════════════════════════════════════
+
+If still not working, check RENDER_FIX_404.md for detailed help!
+
+═══════════════════════════════════════════════════════════════
