@@ -44,6 +44,7 @@ router.get('/', async (req, res) => {
 // Get single product (public)
 router.get('/:id', async (req, res) => {
   try {
+    const Review = require('../models/Review');
     const product = await Product.findById(req.params.id)
       .populate('createdBy', 'name email');
 
@@ -51,7 +52,21 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ message: 'Product not found' });
     }
 
-    res.json(product);
+    // Fetch reviews for this product
+    const reviews = await Review.find({ product: product._id })
+      .sort({ createdAt: -1 })
+      .select('userName rating comment createdAt');
+
+    // Add reviews to product object
+    const productWithReviews = product.toObject();
+    productWithReviews.reviews = reviews.map(review => ({
+      reviewerName: review.userName,
+      rating: review.rating,
+      comment: review.comment,
+      createdAt: review.createdAt
+    }));
+
+    res.json(productWithReviews);
   } catch (error) {
     console.error('Get product error:', error);
     res.status(500).json({ message: 'Server error fetching product' });
