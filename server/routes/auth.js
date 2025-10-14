@@ -259,8 +259,8 @@ router.post('/seed-database', async (req, res) => {
     ];
 
     const products = [
-      ...smartphones.map(p => ({ ...p, category: 'Smartphones', image: `https://placehold.co/400x400/${p.color}/white?text=${encodeURIComponent(p.name)}` })),
-      ...laptops.map(p => ({ ...p, category: 'Laptops', image: `https://placehold.co/400x400/${p.color}/white?text=${encodeURIComponent(p.name)}` }))
+      ...smartphones.map(p => ({ ...p, category: 'Smartphones', image: `https://ui-avatars.com/api/?name=${encodeURIComponent(p.name)}&size=400&background=${p.color}&color=fff&bold=true&font-size=0.33` })),
+      ...laptops.map(p => ({ ...p, category: 'Laptops', image: `https://ui-avatars.com/api/?name=${encodeURIComponent(p.name)}&size=400&background=${p.color}&color=fff&bold=true&font-size=0.33` }))
     ];
 
     const createdProducts = [];
