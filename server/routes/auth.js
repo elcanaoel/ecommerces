@@ -175,4 +175,78 @@ router.post('/init-admin', async (req, res) => {
   }
 });
 
+// Seed database (for initial setup)
+router.post('/seed-database', async (req, res) => {
+  try {
+    const Product = require('../models/Product');
+    const Review = require('../models/Review');
+    
+    // Get admin user
+    const admin = await User.findOne({ role: 'admin' });
+    if (!admin) {
+      return res.status(400).json({ message: 'Admin user not found. Run /init-admin first.' });
+    }
+
+    // Clear existing data
+    await Product.deleteMany({});
+    await Review.deleteMany({});
+
+    // Create products
+    const products = [
+      { name: 'iPhone 15 Pro Max', price: 1199, category: 'Smartphones', brand: 'Apple', stock: 50, featured: true },
+      { name: 'Samsung Galaxy S24 Ultra', price: 1299, category: 'Smartphones', brand: 'Samsung', stock: 45, featured: true },
+      { name: 'Google Pixel 8 Pro', price: 999, category: 'Smartphones', brand: 'Google', stock: 50, featured: true },
+      { name: 'OnePlus 12', price: 799, category: 'Smartphones', brand: 'OnePlus', stock: 45, featured: false },
+      { name: 'MacBook Pro 16-inch M3', price: 3499, category: 'Laptops', brand: 'Apple', stock: 25, featured: true },
+      { name: 'Dell XPS 15', price: 1899, category: 'Laptops', brand: 'Dell', stock: 30, featured: true },
+      { name: 'HP Spectre x360', price: 1799, category: 'Laptops', brand: 'HP', stock: 25, featured: false },
+      { name: 'ASUS ROG Zephyrus', price: 2499, category: 'Laptops', brand: 'ASUS', stock: 20, featured: true },
+    ];
+
+    const createdProducts = [];
+    for (const p of products) {
+      const product = new Product({
+        ...p,
+        description: `High-quality ${p.name} with latest features.`,
+        images: [`https://via.placeholder.com/400?text=${encodeURIComponent(p.name)}`],
+        specifications: { processor: 'Latest', ram: '8GB+', storage: '256GB+' },
+        createdBy: admin._id,
+        isActive: true
+      });
+      await product.save();
+      createdProducts.push(product);
+    }
+
+    // Create reviews
+    let totalReviews = 0;
+    for (const product of createdProducts) {
+      for (let i = 0; i < 5; i++) {
+        const review = new Review({
+          product: product._id,
+          user: admin._id,
+          rating: Math.floor(Math.random() * 2) + 4,
+          comment: 'Great product!',
+          userName: 'Customer'
+        });
+        await review.save();
+        totalReviews++;
+      }
+      
+      const reviews = await Review.find({ product: product._id });
+      product.rating = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+      product.numReviews = reviews.length;
+      await product.save();
+    }
+
+    res.json({
+      success: true,
+      message: 'Database seeded successfully!',
+      data: { products: createdProducts.length, reviews: totalReviews }
+    });
+  } catch (error) {
+    console.error('Seed error:', error);
+    res.status(500).json({ message: 'Error seeding database', error: error.message });
+  }
+});
+
 module.exports = router;
