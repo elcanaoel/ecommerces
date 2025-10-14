@@ -18,8 +18,13 @@ const ProductCard = ({ product }) => {
     }
   }
 
-  const handleImageError = () => {
+  const handleImageError = (e) => {
+    console.error('Image failed to load:', product.images[0])
     setImageError(true)
+  }
+
+  const handleImageLoad = () => {
+    console.log('Image loaded successfully:', product.images[0])
   }
 
   return (
@@ -29,9 +34,11 @@ const ProductCard = ({ product }) => {
           <img
             src={product.images[0]}
             alt={product.name}
-            className="w-full h-48 object-cover rounded-lg mb-4"
+            className="w-full h-48 object-cover rounded-lg mb-4 bg-gray-100"
             onError={handleImageError}
+            onLoad={handleImageLoad}
             loading="lazy"
+            crossOrigin="anonymous"
           />
         ) : (
           <div className="w-full h-48 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg mb-4 flex items-center justify-center">
