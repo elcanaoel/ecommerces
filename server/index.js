@@ -54,6 +54,7 @@ app.use('/api/orders', require('./routes/orders'));
 app.use('/api/settings', require('./routes/settings'));
 app.use('/api/wallet', require('./routes/wallet'));
 app.use('/api/payment-requests', require('./routes/paymentRequests'));
+app.use('/api/seed', require('./routes/seed'));
 
 // Health check
 app.get('/api/health', (req, res) => {
