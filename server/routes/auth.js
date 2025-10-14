@@ -189,80 +189,76 @@ router.post('/seed-database', async (req, res) => {
     // Clear existing data
     await Product.deleteMany({});
 
-    // Create products with proper images
+    // Create products with proper images - 60 products total
+    const smartphones = [
+      { name: 'iPhone 15 Pro Max', price: 1199, brand: 'Apple', stock: 50, featured: true, color: '1e40af' },
+      { name: 'iPhone 15 Pro', price: 999, brand: 'Apple', stock: 60, featured: true, color: '3b82f6' },
+      { name: 'iPhone 15', price: 799, brand: 'Apple', stock: 80, featured: false, color: '60a5fa' },
+      { name: 'iPhone 14 Pro Max', price: 1099, brand: 'Apple', stock: 40, featured: false, color: '93c5fd' },
+      { name: 'Samsung Galaxy S24 Ultra', price: 1299, brand: 'Samsung', stock: 45, featured: true, color: '0ea5e9' },
+      { name: 'Samsung Galaxy S24+', price: 999, brand: 'Samsung', stock: 55, featured: false, color: '06b6d4' },
+      { name: 'Samsung Galaxy S24', price: 799, brand: 'Samsung', stock: 70, featured: false, color: '22d3ee' },
+      { name: 'Samsung Galaxy Z Fold 5', price: 1799, brand: 'Samsung', stock: 25, featured: true, color: '0891b2' },
+      { name: 'Samsung Galaxy Z Flip 5', price: 999, brand: 'Samsung', stock: 35, featured: false, color: '67e8f9' },
+      { name: 'Google Pixel 8 Pro', price: 999, brand: 'Google', stock: 50, featured: true, color: '10b981' },
+      { name: 'Google Pixel 8', price: 699, brand: 'Google', stock: 60, featured: false, color: '34d399' },
+      { name: 'OnePlus 12', price: 799, brand: 'OnePlus', stock: 45, featured: false, color: 'f59e0b' },
+      { name: 'OnePlus 11', price: 699, brand: 'OnePlus', stock: 50, featured: false, color: 'fbbf24' },
+      { name: 'Xiaomi 14 Pro', price: 899, brand: 'Xiaomi', stock: 40, featured: false, color: 'f97316' },
+      { name: 'Xiaomi 13T Pro', price: 649, brand: 'Xiaomi', stock: 55, featured: false, color: 'fb923c' },
+      { name: 'OPPO Find X6 Pro', price: 1099, brand: 'OPPO', stock: 30, featured: false, color: '84cc16' },
+      { name: 'Motorola Edge 40 Pro', price: 899, brand: 'Motorola', stock: 35, featured: false, color: 'a3e635' },
+      { name: 'Sony Xperia 1 V', price: 1399, brand: 'Sony', stock: 20, featured: false, color: '8b5cf6' },
+      { name: 'ASUS ROG Phone 7', price: 999, brand: 'ASUS', stock: 25, featured: false, color: 'a78bfa' },
+      { name: 'Nothing Phone 2', price: 599, brand: 'Nothing', stock: 45, featured: false, color: '6b7280' },
+      { name: 'Realme GT 5 Pro', price: 699, brand: 'Realme', stock: 50, featured: false, color: 'fde047' },
+      { name: 'Vivo X100 Pro', price: 899, brand: 'Vivo', stock: 35, featured: false, color: '14b8a6' },
+      { name: 'Honor Magic 6 Pro', price: 799, brand: 'Honor', stock: 40, featured: false, color: 'ec4899' },
+      { name: 'iPhone 13', price: 599, brand: 'Apple', stock: 90, featured: false, color: 'bfdbfe' },
+      { name: 'Samsung Galaxy A54', price: 449, brand: 'Samsung', stock: 100, featured: false, color: 'a5f3fc' },
+      { name: 'Google Pixel 7a', price: 499, brand: 'Google', stock: 80, featured: false, color: '6ee7b7' },
+      { name: 'OnePlus Nord 3', price: 399, brand: 'OnePlus', stock: 70, featured: false, color: 'fcd34d' },
+      { name: 'Xiaomi Redmi Note 13 Pro', price: 349, brand: 'Xiaomi', stock: 120, featured: false, color: 'fdba74' },
+      { name: 'Motorola Moto G Power', price: 249, brand: 'Motorola', stock: 150, featured: false, color: 'd9f99d' },
+      { name: 'Samsung Galaxy S23 FE', price: 599, brand: 'Samsung', stock: 65, featured: false, color: '7dd3fc' },
+    ];
+
+    const laptops = [
+      { name: 'MacBook Pro 16-inch M3 Max', price: 3499, brand: 'Apple', stock: 25, featured: true, color: '6366f1' },
+      { name: 'MacBook Pro 14-inch M3 Pro', price: 1999, brand: 'Apple', stock: 35, featured: true, color: '818cf8' },
+      { name: 'MacBook Air 15-inch M3', price: 1299, brand: 'Apple', stock: 45, featured: true, color: 'a5b4fc' },
+      { name: 'MacBook Air 13-inch M3', price: 1099, brand: 'Apple', stock: 60, featured: false, color: 'c7d2fe' },
+      { name: 'Dell XPS 15', price: 1899, brand: 'Dell', stock: 30, featured: true, color: '8b5cf6' },
+      { name: 'Dell XPS 13 Plus', price: 1299, brand: 'Dell', stock: 40, featured: false, color: 'a78bfa' },
+      { name: 'HP Spectre x360 16', price: 1799, brand: 'HP', stock: 25, featured: false, color: 'ec4899' },
+      { name: 'HP Envy 14', price: 1099, brand: 'HP', stock: 35, featured: false, color: 'f472b6' },
+      { name: 'Lenovo ThinkPad X1 Carbon Gen 11', price: 1899, brand: 'Lenovo', stock: 30, featured: false, color: 'ef4444' },
+      { name: 'Lenovo Yoga 9i', price: 1499, brand: 'Lenovo', stock: 35, featured: false, color: 'f87171' },
+      { name: 'ASUS ROG Zephyrus G16', price: 2499, brand: 'ASUS', stock: 20, featured: true, color: 'dc2626' },
+      { name: 'ASUS ZenBook 14 OLED', price: 999, brand: 'ASUS', stock: 45, featured: false, color: 'fca5a5' },
+      { name: 'MSI Stealth 17 Studio', price: 2799, brand: 'MSI', stock: 15, featured: false, color: 'ea580c' },
+      { name: 'Razer Blade 15', price: 2499, brand: 'Razer', stock: 20, featured: false, color: '22c55e' },
+      { name: 'Microsoft Surface Laptop 5', price: 1299, brand: 'Microsoft', stock: 40, featured: false, color: '4ade80' },
+      { name: 'Microsoft Surface Pro 9', price: 999, brand: 'Microsoft', stock: 50, featured: false, color: '86efac' },
+      { name: 'Acer Swift X', price: 899, brand: 'Acer', stock: 45, featured: false, color: 'facc15' },
+      { name: 'Acer Predator Helios 16', price: 1799, brand: 'Acer', stock: 25, featured: false, color: 'fde047' },
+      { name: 'LG Gram 17', price: 1699, brand: 'LG', stock: 30, featured: false, color: '06b6d4' },
+      { name: 'Samsung Galaxy Book3 Pro 360', price: 1499, brand: 'Samsung', stock: 35, featured: false, color: '22d3ee' },
+      { name: 'Alienware m18', price: 3299, brand: 'Dell', stock: 15, featured: false, color: '7c3aed' },
+      { name: 'Framework Laptop 13', price: 1099, brand: 'Framework', stock: 40, featured: false, color: '9333ea' },
+      { name: 'Gigabyte AERO 16', price: 2199, brand: 'Gigabyte', stock: 20, featured: false, color: 'd946ef' },
+      { name: 'HP Pavilion 15', price: 699, brand: 'HP', stock: 80, featured: false, color: 'f9a8d4' },
+      { name: 'Lenovo IdeaPad 5 Pro', price: 799, brand: 'Lenovo', stock: 70, featured: false, color: 'fb7185' },
+      { name: 'ASUS VivoBook S15', price: 649, brand: 'ASUS', stock: 90, featured: false, color: 'fda4af' },
+      { name: 'Dell Inspiron 16', price: 749, brand: 'Dell', stock: 75, featured: false, color: 'c084fc' },
+      { name: 'Acer Aspire 5', price: 549, brand: 'Acer', stock: 100, featured: false, color: 'fef08a' },
+      { name: 'HP Chromebook Plus', price: 399, brand: 'HP', stock: 120, featured: false, color: 'bae6fd' },
+      { name: 'Lenovo ThinkBook 15', price: 699, brand: 'Lenovo', stock: 85, featured: false, color: 'fecaca' },
+    ];
+
     const products = [
-      { 
-        name: 'iPhone 15 Pro Max', 
-        price: 1199, 
-        category: 'Smartphones', 
-        brand: 'Apple', 
-        stock: 50, 
-        featured: true,
-        image: 'https://placehold.co/400x400/1e40af/white?text=iPhone+15+Pro+Max'
-      },
-      { 
-        name: 'Samsung Galaxy S24 Ultra', 
-        price: 1299, 
-        category: 'Smartphones', 
-        brand: 'Samsung', 
-        stock: 45, 
-        featured: true,
-        image: 'https://placehold.co/400x400/0ea5e9/white?text=Samsung+S24+Ultra'
-      },
-      { 
-        name: 'Google Pixel 8 Pro', 
-        price: 999, 
-        category: 'Smartphones', 
-        brand: 'Google', 
-        stock: 50, 
-        featured: true,
-        image: 'https://placehold.co/400x400/10b981/white?text=Google+Pixel+8+Pro'
-      },
-      { 
-        name: 'OnePlus 12', 
-        price: 799, 
-        category: 'Smartphones', 
-        brand: 'OnePlus', 
-        stock: 45, 
-        featured: false,
-        image: 'https://placehold.co/400x400/f59e0b/white?text=OnePlus+12'
-      },
-      { 
-        name: 'MacBook Pro 16-inch M3', 
-        price: 3499, 
-        category: 'Laptops', 
-        brand: 'Apple', 
-        stock: 25, 
-        featured: true,
-        image: 'https://placehold.co/400x400/6366f1/white?text=MacBook+Pro+M3'
-      },
-      { 
-        name: 'Dell XPS 15', 
-        price: 1899, 
-        category: 'Laptops', 
-        brand: 'Dell', 
-        stock: 30, 
-        featured: true,
-        image: 'https://placehold.co/400x400/8b5cf6/white?text=Dell+XPS+15'
-      },
-      { 
-        name: 'HP Spectre x360', 
-        price: 1799, 
-        category: 'Laptops', 
-        brand: 'HP', 
-        stock: 25, 
-        featured: false,
-        image: 'https://placehold.co/400x400/ec4899/white?text=HP+Spectre+x360'
-      },
-      { 
-        name: 'ASUS ROG Zephyrus', 
-        price: 2499, 
-        category: 'Laptops', 
-        brand: 'ASUS', 
-        stock: 20, 
-        featured: true,
-        image: 'https://placehold.co/400x400/ef4444/white?text=ASUS+ROG+Zephyrus'
-      },
+      ...smartphones.map(p => ({ ...p, category: 'Smartphones', image: `https://placehold.co/400x400/${p.color}/white?text=${encodeURIComponent(p.name)}` })),
+      ...laptops.map(p => ({ ...p, category: 'Laptops', image: `https://placehold.co/400x400/${p.color}/white?text=${encodeURIComponent(p.name)}` }))
     ];
 
     const createdProducts = [];
