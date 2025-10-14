@@ -38,7 +38,6 @@ const ProductCard = ({ product }) => {
             onError={handleImageError}
             onLoad={handleImageLoad}
             loading="lazy"
-            crossOrigin="anonymous"
           />
         ) : (
           <div className="w-full h-48 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg mb-4 flex items-center justify-center">
