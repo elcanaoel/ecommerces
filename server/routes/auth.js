@@ -179,6 +179,7 @@ router.post('/init-admin', async (req, res) => {
 router.post('/seed-database', async (req, res) => {
   try {
     const Product = require('../models/Product');
+    const Review = require('../models/Review');
     
     // Get admin user
     const admin = await User.findOne({ role: 'admin' });
@@ -188,6 +189,7 @@ router.post('/seed-database', async (req, res) => {
 
     // Clear existing data
     await Product.deleteMany({});
+    await Review.deleteMany({});
 
     // Create products with proper images - 60 products total
     const smartphones = [
@@ -280,10 +282,65 @@ router.post('/seed-database', async (req, res) => {
       createdProducts.push(product);
     }
 
+    // Create reviews for each product (6-10 reviews per product)
+    const reviewComments = [
+      'Excellent product! Highly recommend it to everyone.',
+      'Great value for money. Very satisfied with my purchase.',
+      'Amazing quality and fast delivery. Will buy again!',
+      'Perfect! Exactly what I needed. Five stars!',
+      'Outstanding performance. Exceeded my expectations.',
+      'Best purchase I\'ve made this year. Love it!',
+      'Fantastic product with great features. Highly recommended!',
+      'Very impressed with the quality. Worth every penny.',
+      'Superb! Works perfectly and looks amazing.',
+      'Incredible! Better than I expected. Must buy!',
+      'Top-notch quality. Very happy with this purchase.',
+      'Awesome product! Would definitely recommend to friends.',
+      'Brilliant! Everything I wanted and more.',
+      'Exceptional quality and performance. Love it!',
+      'Perfect condition and works great. Very satisfied.'
+    ];
+
+    const reviewerNames = [
+      'John Smith', 'Sarah Johnson', 'Michael Brown', 'Emily Davis',
+      'David Wilson', 'Jessica Martinez', 'James Anderson', 'Jennifer Taylor',
+      'Robert Thomas', 'Lisa Moore', 'William Jackson', 'Mary White',
+      'Richard Harris', 'Patricia Martin', 'Charles Thompson', 'Linda Garcia',
+      'Daniel Rodriguez', 'Barbara Lewis', 'Matthew Lee', 'Elizabeth Walker'
+    ];
+
+    let totalReviews = 0;
+    for (const product of createdProducts) {
+      // Random number of reviews between 6 and 10
+      const numReviews = Math.floor(Math.random() * 5) + 6;
+      
+      for (let i = 0; i < numReviews; i++) {
+        const review = new Review({
+          product: product._id,
+          user: admin._id,
+          rating: Math.random() < 0.8 ? 5 : 4, // 80% 5-star, 20% 4-star
+          comment: reviewComments[Math.floor(Math.random() * reviewComments.length)],
+          userName: reviewerNames[Math.floor(Math.random() * reviewerNames.length)]
+        });
+        await review.save();
+        totalReviews++;
+      }
+      
+      // Update product with average rating and review count
+      const productReviews = await Review.find({ product: product._id });
+      const avgRating = productReviews.reduce((sum, r) => sum + r.rating, 0) / productReviews.length;
+      product.averageRating = avgRating;
+      await product.save();
+    }
+
     res.json({
       success: true,
       message: 'Database seeded successfully!',
-      data: { products: createdProducts.length }
+      data: { 
+        products: createdProducts.length,
+        reviews: totalReviews,
+        avgReviewsPerProduct: (totalReviews / createdProducts.length).toFixed(1)
+      }
     });
   } catch (error) {
     console.error('Seed error:', error);
