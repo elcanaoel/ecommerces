@@ -28,9 +28,11 @@ router.get('/', async (req, res) => {
       if (maxPrice) query.price.$lte = parseFloat(maxPrice);
     }
 
-    const products = await Product.find(query)
-      .populate('createdBy', 'name email')
-      .sort({ featured: -1, name: 1 });
+    let products = await Product.find(query)
+      .populate('createdBy', 'name email');
+
+    // Shuffle products randomly for each request
+    products = products.sort(() => Math.random() - 0.5);
 
     res.json(products);
   } catch (error) {
