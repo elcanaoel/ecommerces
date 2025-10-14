@@ -179,7 +179,6 @@ router.post('/init-admin', async (req, res) => {
 router.post('/seed-database', async (req, res) => {
   try {
     const Product = require('../models/Product');
-    const Review = require('../models/Review');
     
     // Get admin user
     const admin = await User.findOne({ role: 'admin' });
@@ -189,7 +188,6 @@ router.post('/seed-database', async (req, res) => {
 
     // Clear existing data
     await Product.deleteMany({});
-    await Review.deleteMany({});
 
     // Create products
     const products = [
@@ -217,31 +215,10 @@ router.post('/seed-database', async (req, res) => {
       createdProducts.push(product);
     }
 
-    // Create reviews
-    let totalReviews = 0;
-    for (const product of createdProducts) {
-      for (let i = 0; i < 5; i++) {
-        const review = new Review({
-          product: product._id,
-          user: admin._id,
-          rating: Math.floor(Math.random() * 2) + 4,
-          comment: 'Great product!',
-          userName: 'Customer'
-        });
-        await review.save();
-        totalReviews++;
-      }
-      
-      const reviews = await Review.find({ product: product._id });
-      product.rating = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
-      product.numReviews = reviews.length;
-      await product.save();
-    }
-
     res.json({
       success: true,
       message: 'Database seeded successfully!',
-      data: { products: createdProducts.length, reviews: totalReviews }
+      data: { products: createdProducts.length }
     });
   } catch (error) {
     console.error('Seed error:', error);
