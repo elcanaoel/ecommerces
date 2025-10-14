@@ -189,25 +189,94 @@ router.post('/seed-database', async (req, res) => {
     // Clear existing data
     await Product.deleteMany({});
 
-    // Create products
+    // Create products with proper images
     const products = [
-      { name: 'iPhone 15 Pro Max', price: 1199, category: 'Smartphones', brand: 'Apple', stock: 50, featured: true },
-      { name: 'Samsung Galaxy S24 Ultra', price: 1299, category: 'Smartphones', brand: 'Samsung', stock: 45, featured: true },
-      { name: 'Google Pixel 8 Pro', price: 999, category: 'Smartphones', brand: 'Google', stock: 50, featured: true },
-      { name: 'OnePlus 12', price: 799, category: 'Smartphones', brand: 'OnePlus', stock: 45, featured: false },
-      { name: 'MacBook Pro 16-inch M3', price: 3499, category: 'Laptops', brand: 'Apple', stock: 25, featured: true },
-      { name: 'Dell XPS 15', price: 1899, category: 'Laptops', brand: 'Dell', stock: 30, featured: true },
-      { name: 'HP Spectre x360', price: 1799, category: 'Laptops', brand: 'HP', stock: 25, featured: false },
-      { name: 'ASUS ROG Zephyrus', price: 2499, category: 'Laptops', brand: 'ASUS', stock: 20, featured: true },
+      { 
+        name: 'iPhone 15 Pro Max', 
+        price: 1199, 
+        category: 'Smartphones', 
+        brand: 'Apple', 
+        stock: 50, 
+        featured: true,
+        image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400&h=400&fit=crop'
+      },
+      { 
+        name: 'Samsung Galaxy S24 Ultra', 
+        price: 1299, 
+        category: 'Smartphones', 
+        brand: 'Samsung', 
+        stock: 45, 
+        featured: true,
+        image: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=400&h=400&fit=crop'
+      },
+      { 
+        name: 'Google Pixel 8 Pro', 
+        price: 999, 
+        category: 'Smartphones', 
+        brand: 'Google', 
+        stock: 50, 
+        featured: true,
+        image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400&h=400&fit=crop'
+      },
+      { 
+        name: 'OnePlus 12', 
+        price: 799, 
+        category: 'Smartphones', 
+        brand: 'OnePlus', 
+        stock: 45, 
+        featured: false,
+        image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=400&fit=crop'
+      },
+      { 
+        name: 'MacBook Pro 16-inch M3', 
+        price: 3499, 
+        category: 'Laptops', 
+        brand: 'Apple', 
+        stock: 25, 
+        featured: true,
+        image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=400&fit=crop'
+      },
+      { 
+        name: 'Dell XPS 15', 
+        price: 1899, 
+        category: 'Laptops', 
+        brand: 'Dell', 
+        stock: 30, 
+        featured: true,
+        image: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400&h=400&fit=crop'
+      },
+      { 
+        name: 'HP Spectre x360', 
+        price: 1799, 
+        category: 'Laptops', 
+        brand: 'HP', 
+        stock: 25, 
+        featured: false,
+        image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=400&fit=crop'
+      },
+      { 
+        name: 'ASUS ROG Zephyrus', 
+        price: 2499, 
+        category: 'Laptops', 
+        brand: 'ASUS', 
+        stock: 20, 
+        featured: true,
+        image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400&h=400&fit=crop'
+      },
     ];
 
     const createdProducts = [];
     for (const p of products) {
       const product = new Product({
-        ...p,
-        description: `High-quality ${p.name} with latest features.`,
-        images: [`https://via.placeholder.com/400?text=${encodeURIComponent(p.name)}`],
-        specifications: { processor: 'Latest', ram: '8GB+', storage: '256GB+' },
+        name: p.name,
+        price: p.price,
+        category: p.category,
+        brand: p.brand,
+        stock: p.stock,
+        featured: p.featured,
+        description: `High-quality ${p.name} with latest features and specifications. Perfect for professionals and tech enthusiasts.`,
+        images: [p.image],
+        specifications: { processor: 'Latest Generation', ram: '8GB+', storage: '256GB+' },
         createdBy: admin._id,
         isActive: true
       });
