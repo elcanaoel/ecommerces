@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { ShoppingCart, User, LogOut, Bell, Package, Menu, X } from 'lucide-react'
+import { ShoppingCart, User, LogOut, Bell, Package, Menu, X, Headphones } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 import { useState, useEffect } from 'react'
@@ -55,10 +55,16 @@ const Navbar = () => {
             </Link>
 
             {isAuthenticated && (
-              <Link to="/orders" className="flex items-center space-x-1 text-gray-700 hover:text-primary-600 transition-colors">
-                <Package size={20} />
-                <span>Orders</span>
-              </Link>
+              <>
+                <Link to="/orders" className="flex items-center space-x-1 text-gray-700 hover:text-primary-600 transition-colors">
+                  <Package size={20} />
+                  <span>Orders</span>
+                </Link>
+                <Link to="/customer-care" className="flex items-center space-x-1 text-gray-700 hover:text-primary-600 transition-colors">
+                  <Headphones size={20} />
+                  <span>Support</span>
+                </Link>
+              </>
             )}
 
             <Link to="/cart" className="relative text-gray-700 hover:text-primary-600 transition-colors">
@@ -144,6 +150,14 @@ const Navbar = () => {
                   >
                     <Package size={20} />
                     <span>Orders</span>
+                  </Link>
+                  <Link
+                    to="/customer-care"
+                    className="flex items-center space-x-2 text-gray-700 hover:text-primary-600 transition-colors py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <Headphones size={20} />
+                    <span>Support</span>
                   </Link>
                   <Link
                     to="/payment-requests"

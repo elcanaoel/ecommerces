@@ -13,6 +13,7 @@ import Orders from './pages/Orders'
 import OrderDetail from './pages/OrderDetail'
 import Profile from './pages/Profile'
 import PaymentRequests from './pages/PaymentRequests'
+import CustomerCare from './pages/CustomerCare'
 
 // Admin Pages
 import AdminLogin from './pages/admin/AdminLogin'
@@ -21,6 +22,7 @@ import AdminProducts from './pages/admin/AdminProducts'
 import AdminOrders from './pages/admin/AdminOrders'
 import AdminWallet from './pages/admin/AdminWallet'
 import AdminSettings from './pages/admin/AdminSettings'
+import AdminSupport from './pages/admin/AdminSupport'
 
 // Components
 import Navbar from './components/Navbar'
@@ -68,6 +70,11 @@ function App() {
                 <PaymentRequests />
               </ProtectedRoute>
             } />
+            <Route path="/customer-care" element={
+              <ProtectedRoute>
+                <CustomerCare />
+              </ProtectedRoute>
+            } />
             
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
@@ -94,6 +101,11 @@ function App() {
             <Route path="/admin/settings" element={
               <AdminRoute>
                 <AdminSettings />
+              </AdminRoute>
+            } />
+            <Route path="/admin/support" element={
+              <AdminRoute>
+                <AdminSupport />
               </AdminRoute>
             } />
           </Routes>

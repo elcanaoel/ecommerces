@@ -70,6 +70,22 @@ export const paymentRequestsAPI = {
   delete: (id) => axios.delete(`${API_URL}/payment-requests/${id}`)
 }
 
+// Support Tickets API
+export const supportAPI = {
+  createTicket: (data) => axios.post(`${API_URL}/support`, data),
+  getMyTickets: (params) => axios.get(`${API_URL}/support/my-tickets`, { params }),
+  getTicket: (id) => axios.get(`${API_URL}/support/${id}`),
+  addMessage: (id, data) => axios.post(`${API_URL}/support/${id}/messages`, data),
+  closeTicket: (id) => axios.post(`${API_URL}/support/${id}/close`),
+  // Admin endpoints
+  getAllTickets: (params) => axios.get(`${API_URL}/support/admin/all`, { params }),
+  updateStatus: (id, data) => axios.put(`${API_URL}/support/${id}/status`, data),
+  updatePriority: (id, data) => axios.put(`${API_URL}/support/${id}/priority`, data),
+  assignTicket: (id) => axios.put(`${API_URL}/support/${id}/assign`),
+  updateNotes: (id, data) => axios.put(`${API_URL}/support/${id}/notes`, data),
+  getStatistics: () => axios.get(`${API_URL}/support/admin/statistics`)
+}
+
 export default {
   auth: authAPI,
   products: productsAPI,

@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { LayoutDashboard, Package, ShoppingCart, Settings, LogOut, Wallet } from 'lucide-react'
+import { LayoutDashboard, Package, ShoppingCart, Settings, LogOut, Wallet, Headphones } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 const AdminLayout = ({ children }) => {
@@ -17,6 +17,7 @@ const AdminLayout = ({ children }) => {
     { path: '/admin/products', icon: Package, label: 'Products' },
     { path: '/admin/orders', icon: ShoppingCart, label: 'Orders' },
     { path: '/admin/wallet', icon: Wallet, label: 'Wallet' },
+    { path: '/admin/support', icon: Headphones, label: 'Support' },
     { path: '/admin/settings', icon: Settings, label: 'Settings' }
   ]
 
