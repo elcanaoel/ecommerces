@@ -13,8 +13,12 @@ router.post('/', [
   body('description').trim().notEmpty().withMessage('Description is required')
 ], async (req, res) => {
   try {
+    console.log('Creating support ticket for user:', req.user?._id);
+    console.log('Request body:', req.body);
+    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log('Validation errors:', errors.array());
       return res.status(400).json({ errors: errors.array() });
     }
 
@@ -31,6 +35,7 @@ router.post('/', [
       }
     }
 
+    console.log('Creating ticket object...');
     const ticket = new SupportTicket({
       user: req.user._id,
       category,
@@ -45,7 +50,10 @@ router.post('/', [
       }]
     });
 
+    console.log('Saving ticket to database...');
     await ticket.save();
+    console.log('Ticket saved successfully, ID:', ticket._id);
+    
     await ticket.populate('user', 'name email');
     if (orderId) {
       await ticket.populate('order', 'orderNumber totalAmount');
