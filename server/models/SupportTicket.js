@@ -82,18 +82,25 @@ const supportTicketSchema = new mongoose.Schema({
   }
 });
 
-// Generate ticket number before saving
-supportTicketSchema.pre('save', async function(next) {
+// Generate ticket number before validation (so it's set before required check)
+supportTicketSchema.pre('validate', async function(next) {
   if (this.isNew && !this.ticketNumber) {
     try {
       const count = await mongoose.model('SupportTicket').countDocuments();
       this.ticketNumber = `TKT-${String(count + 1).padStart(6, '0')}`;
+      console.log('Generated ticket number:', this.ticketNumber);
     } catch (error) {
       console.error('Error generating ticket number:', error);
       // Fallback: use timestamp-based ticket number
       this.ticketNumber = `TKT-${Date.now()}`;
+      console.log('Using fallback ticket number:', this.ticketNumber);
     }
   }
+  next();
+});
+
+// Update timestamp before saving
+supportTicketSchema.pre('save', function(next) {
   this.updatedAt = Date.now();
   next();
 });
