@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { CheckCircle, XCircle, Clock, DollarSign, Users, TrendingUp, CreditCard, Image as ImageIcon, RefreshCw } from 'lucide-react'
-import { walletAPI } from '../../utils/api'
+import { walletAPI, BASE_URL } from '../../utils/api'
 import { toast } from 'react-toastify'
 
 const AdminWallet = () => {
@@ -269,7 +269,7 @@ const AdminWallet = () => {
                             </div>
                             {deposit.giftCardImage && (
                               <button
-                                onClick={() => setSelectedImage(`http://localhost:5000${deposit.giftCardImage}`)}
+                                onClick={() => setSelectedImage(`${BASE_URL}${deposit.giftCardImage}`)}
                                 className="text-xs text-primary-600 hover:text-primary-700 flex items-center space-x-1"
                               >
                                 <ImageIcon size={12} />

@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://ecom-backend-hu1c.onrender.com/api'
+export const BASE_URL = API_URL.replace('/api', '') // Base URL without /api for static files
 
 // Auth API
 export const authAPI = {
