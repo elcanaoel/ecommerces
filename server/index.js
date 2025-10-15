@@ -20,9 +20,18 @@ app.use(cors({
     // Allow requests with no origin (mobile apps, Postman, etc.)
     if (!origin) return callback(null, true);
     
+    // In production, if CLIENT_URL is not set, allow all Render domains
+    if (process.env.NODE_ENV === 'production' && !process.env.CLIENT_URL) {
+      if (origin && origin.includes('.onrender.com')) {
+        return callback(null, true);
+      }
+    }
+    
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.log(`❌ CORS blocked origin: ${origin}`);
+      console.log(`✅ Allowed origins:`, allowedOrigins);
       callback(new Error('Not allowed by CORS'));
     }
   },
