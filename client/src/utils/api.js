@@ -46,7 +46,6 @@ export const settingsAPI = {
 export const walletAPI = {
   getWallet: () => axios.get(`${API_URL}/wallet`),
   getGiftCardTypes: () => axios.get(`${API_URL}/wallet/giftcard-types`),
-  deposit: (data) => axios.post(`${API_URL}/wallet/deposit`, data),
   depositGiftCard: (formData) => axios.post(`${API_URL}/wallet/deposit/giftcard`, formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
   }),

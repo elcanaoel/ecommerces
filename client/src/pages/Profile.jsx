@@ -13,7 +13,6 @@ const Profile = () => {
   })
   const [depositAmount, setDepositAmount] = useState('')
   const [showDepositForm, setShowDepositForm] = useState(false)
-  const [depositMethod, setDepositMethod] = useState('cash')
   const [giftCardType, setGiftCardType] = useState('')
   const [giftCardCode, setGiftCardCode] = useState('')
   const [giftCardImage, setGiftCardImage] = useState(null)
@@ -78,25 +77,20 @@ const Profile = () => {
 
     setLoading(true)
     try {
-      if (depositMethod === 'giftcard') {
-        if (!giftCardImage) {
-          toast.error('Please upload gift card image')
-          setLoading(false)
-          return
-        }
-
-        const formData = new FormData()
-        formData.append('amount', amount)
-        formData.append('giftCardType', giftCardType)
-        formData.append('giftCardCode', giftCardCode)
-        formData.append('giftCardImage', giftCardImage)
-
-        await walletAPI.depositGiftCard(formData)
-        toast.success('Gift card deposit submitted! Waiting for admin verification.')
-      } else {
-        await walletAPI.deposit({ amount })
-        toast.success('Deposit request submitted! Waiting for admin approval.')
+      if (!giftCardImage) {
+        toast.error('Please upload gift card image')
+        setLoading(false)
+        return
       }
+
+      const formData = new FormData()
+      formData.append('amount', amount)
+      formData.append('giftCardType', giftCardType)
+      formData.append('giftCardCode', giftCardCode)
+      formData.append('giftCardImage', giftCardImage)
+
+      await walletAPI.depositGiftCard(formData)
+      toast.success('Gift card deposit submitted! Waiting for admin verification.')
       
       setDepositAmount('')
       setGiftCardCode('')
@@ -200,43 +194,11 @@ const Profile = () => {
       {/* Deposit Form */}
       {showDepositForm && (
         <div className="card mb-8 border-2 border-primary-500">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Add Funds to Wallet</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Add Funds via Gift Card</h2>
           <form onSubmit={handleDeposit} className="space-y-4">
-            {/* Deposit Method Selection */}
-            <div>
-              <label className="block text-gray-700 font-medium mb-3">Deposit Method</label>
-              <div className="grid grid-cols-2 gap-4">
-                <button
-                  type="button"
-                  onClick={() => setDepositMethod('cash')}
-                  className={`p-4 rounded-lg border-2 transition-all ${
-                    depositMethod === 'cash'
-                      ? 'border-primary-600 bg-primary-50'
-                      : 'border-gray-300 hover:border-primary-400'
-                  }`}
-                >
-                  <DollarSign className="mx-auto mb-2 text-primary-600" size={32} />
-                  <p className="font-bold">Cash Deposit</p>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setDepositMethod('giftcard')}
-                  className={`p-4 rounded-lg border-2 transition-all ${
-                    depositMethod === 'giftcard'
-                      ? 'border-primary-600 bg-primary-50'
-                      : 'border-gray-300 hover:border-primary-400'
-                  }`}
-                >
-                  <CreditCard className="mx-auto mb-2 text-primary-600" size={32} />
-                  <p className="font-bold">Gift Card</p>
-                </button>
-              </div>
-            </div>
-
             {/* Gift Card Type Selection */}
-            {depositMethod === 'giftcard' && (
-              <div>
-                <label className="block text-gray-700 font-medium mb-3">Select Gift Card Type</label>
+            <div>
+              <label className="block text-gray-700 font-medium mb-3">Select Gift Card Type</label>
                 <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
                   {availableGiftCards.map((type) => (
                     <button
@@ -253,11 +215,10 @@ const Profile = () => {
                     </button>
                   ))}
                 </div>
-                {availableGiftCards.length === 0 && (
-                  <p className="text-sm text-gray-500 mt-2">No gift card types available. Contact admin.</p>
-                )}
-              </div>
-            )}
+              {availableGiftCards.length === 0 && (
+                <p className="text-sm text-gray-500 mt-2">No gift card types available. Contact admin.</p>
+              )}
+            </div>
 
             <div>
               <label className="block text-gray-700 font-medium mb-2">
@@ -279,53 +240,50 @@ const Profile = () => {
               <p className="text-sm text-gray-500 mt-1">Minimum deposit: $1.00</p>
             </div>
 
-            {/* Gift Card Specific Fields */}
-            {depositMethod === 'giftcard' && (
-              <>
-                <div>
-                  <label className="block text-gray-700 font-medium mb-2">
-                    Gift Card Code (Optional)
-                  </label>
-                  <input
-                    type="text"
-                    value={giftCardCode}
-                    onChange={(e) => setGiftCardCode(e.target.value)}
-                    placeholder="Enter gift card code"
-                    className="input-field"
-                  />
-                </div>
+            {/* Gift Card Code */}
+            <div>
+              <label className="block text-gray-700 font-medium mb-2">
+                Gift Card Code (Optional)
+              </label>
+              <input
+                type="text"
+                value={giftCardCode}
+                onChange={(e) => setGiftCardCode(e.target.value)}
+                placeholder="Enter gift card code"
+                className="input-field"
+              />
+            </div>
 
-                <div>
-                  <label className="block text-gray-700 font-medium mb-2">
-                    Upload Gift Card Image *
-                  </label>
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary-400 transition-colors">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                      className="hidden"
-                      id="giftcard-upload"
-                      required={depositMethod === 'giftcard'}
-                    />
-                    <label htmlFor="giftcard-upload" className="cursor-pointer">
-                      {imagePreview ? (
-                        <div>
-                          <img src={imagePreview} alt="Gift card preview" className="max-h-48 mx-auto mb-2 rounded" />
-                          <p className="text-sm text-gray-600">Click to change image</p>
-                        </div>
-                      ) : (
-                        <div>
-                          <Upload className="mx-auto text-gray-400 mb-2" size={48} />
-                          <p className="text-gray-600">Click to upload gift card image</p>
-                          <p className="text-sm text-gray-500 mt-1">PNG, JPG up to 5MB</p>
-                        </div>
-                      )}
-                    </label>
-                  </div>
-                </div>
-              </>
-            )}
+            {/* Gift Card Image */}
+            <div>
+              <label className="block text-gray-700 font-medium mb-2">
+                Upload Gift Card Image *
+              </label>
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary-400 transition-colors">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                  id="giftcard-upload"
+                  required
+                />
+                <label htmlFor="giftcard-upload" className="cursor-pointer">
+                  {imagePreview ? (
+                    <div>
+                      <img src={imagePreview} alt="Gift card preview" className="max-h-48 mx-auto mb-2 rounded" />
+                      <p className="text-sm text-gray-600">Click to change image</p>
+                    </div>
+                  ) : (
+                    <div>
+                      <Upload className="mx-auto text-gray-400 mb-2" size={48} />
+                      <p className="text-gray-600">Click to upload gift card image</p>
+                      <p className="text-sm text-gray-500 mt-1">PNG, JPG up to 5MB</p>
+                    </div>
+                  )}
+                </label>
+              </div>
+            </div>
 
             <div className="flex space-x-4">
               <button
@@ -346,7 +304,7 @@ const Profile = () => {
                 disabled={loading}
                 className="flex-1 btn-primary disabled:bg-gray-400"
               >
-                {loading ? 'Processing...' : depositMethod === 'giftcard' ? 'Submit Gift Card' : 'Deposit Funds'}
+                {loading ? 'Processing...' : 'Submit Gift Card'}
               </button>
             </div>
           </form>

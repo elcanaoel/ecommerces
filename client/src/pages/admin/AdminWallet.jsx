@@ -281,7 +281,7 @@ const AdminWallet = () => {
                             )}
                           </div>
                         ) : (
-                          <span className="text-gray-600">Cash</span>
+                          <span className="text-gray-600">Gift Card (No Image)</span>
                         )}
                       </td>
                       <td className="py-3 px-4 text-right font-bold text-green-600">
